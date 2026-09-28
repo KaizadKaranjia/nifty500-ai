@@ -1,0 +1,18 @@
+# files created by runs (never committed - the job keeps them on the release 'state' and the branch 'results')
+data/prices.pkl
+data/prices_part*.pkl
+data/*.bak
+data/*.tmp
+data/bhav/
+data/runs/
+data/charts/
+data/recommendations.db
+data/store_meta.json
+data/corporate_actions.csv
+data/published.json
+data/.run.lock
+output/
+logs/
+build/
+__pycache__/
+.venv/

@@ -1,0 +1,9 @@
+# Python 3.12 (tested with these exact versions - keep scikit-learn at 1.8.0: the saved AI models need it)
+numpy==2.4.4
+pandas==3.0.2
+scipy==1.17.1
+scikit-learn==1.8.0
+TA-Lib==0.8.1
+openpyxl==3.1.5
+matplotlib==3.10.9
+requests>=2.31
