@@ -1,0 +1,6 @@
+symbol,ex_date,factor,note
+# Normally leave this file empty: splits, bonuses and demergers are adjusted automatically.
+# Add a row only if the 'Data checks' on the Read Me sheet or the log shows a missed or wrong adjustment.
+# factor multiplies all prices BEFORE ex_date: split 10->2 = 0.2 ; bonus 1:1 = 0.5 ; bonus 1:4 = 0.8
+# demerger: factor = ex-date opening price / previous close. To undo a wrong automatic factor f, add 1/f.
+# Example (remove the # to use):  XYZ,2026-11-20,0.5,bonus 1:1
