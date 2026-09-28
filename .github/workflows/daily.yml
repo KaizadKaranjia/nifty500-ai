@@ -1,0 +1,79 @@
+# Nifty 500 AI - daily job (free on a public GitHub repository).
+# Runs the AI engine after the NSE close and publishes the results on the branch 'results'
+# for the Oracle APEX 'AI Research' popup. Research / paper-trading tool - not investment advice.
+name: Nifty 500 AI daily
+
+on:
+  schedule:                    # times are UTC (India = UTC + 5:30)
+    - cron: '30 14 * * 1-5'    # 20:00 IST Mon-Fri - official NSE files, if NSE lets GitHub download them
+    - cron: '45 18 * * 1-5'    # 00:15 IST - the GitHub data mirrors have the day's files by now
+    - cron: '30 21 * * 1-5'    # 03:00 IST - safety net
+    - cron: '30 2 * * 2-6'     # 08:00 IST (next morning) - last catch-up before the market opens
+  workflow_dispatch:           # "Run workflow" button on the Actions tab
+    inputs:
+      mode:
+        description: 'normal = daily run | force = publish the latest session again | selftest = check the engine'
+        type: choice
+        options: [normal, force, selftest]
+        default: normal
+
+permissions:
+  contents: write              # push the 'results' branch and keep the saved data on the release 'state'
+  actions: write               # keep this daily schedule switched on
+
+concurrency:
+  group: nifty500-ai-daily
+  cancel-in-progress: false
+
+jobs:
+  daily:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    env:
+      PYTHONUNBUFFERED: '1'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      MPLBACKEND: Agg
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Install the Python packages
+        run: python -m pip install -r requirements.txt
+
+      - name: Restore the saved data
+        run: python ci/state.py restore
+
+      - name: Daily run (prices, calls, success rate, Excel, APEX files)
+        id: run
+        run: python ci/gh_job.py --mode "${{ inputs.mode || 'normal' }}"
+
+      - name: Publish the results (branch 'results')
+        if: steps.run.outputs.changed == 'yes'
+        run: python ci/state.py publish
+
+      - name: Save the data for the next run
+        if: steps.run.outputs.changed == 'yes'
+        run: python ci/state.py save
+
+      - name: Keep the daily schedule switched on
+        if: always()
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/daily.yml/enable" || true
+
+      - name: Keep the log files for 7 days
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: logs-${{ github.run_id }}
+          path: logs/
+          retention-days: 7
+          if-no-files-found: ignore
