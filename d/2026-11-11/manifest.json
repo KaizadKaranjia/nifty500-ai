@@ -1,0 +1,22 @@
+{
+ "counts": {
+  "signals": 1503,
+  "calls": 1965,
+  "success": 15,
+  "daily": 31
+ },
+ "headline": {
+  "success_rate_pct": 43.6,
+  "completed": 753,
+  "success_rate_mature_pct": 43.1,
+  "mature": 699,
+  "running": 1206,
+  "calls": 1965,
+  "first_date": "2026-09-25",
+  "last_date": "2026-11-11"
+ },
+ "session_date": "2026-11-11",
+ "generated_utc": "2026-11-11T21:36:13Z",
+ "excel": "Nifty500_AI_Signals_20261111.xlsx",
+ "regime": 1
+}
