@@ -1,0 +1,33 @@
+{
+ "schema": 1,
+ "session_date": "2026-11-27",
+ "generated_utc": "2026-11-27T22:57:52Z",
+ "folder": "d/2026-11-27",
+ "files": {
+  "signals": "d/2026-11-27/signals.json",
+  "calls": "d/2026-11-27/calls.json",
+  "success": "d/2026-11-27/success.json"
+ },
+ "counts": {
+  "signals": 1503,
+  "calls": 2538,
+  "success": 15,
+  "daily": 42
+ },
+ "headline": {
+  "success_rate_pct": 44.2,
+  "completed": 1198,
+  "success_rate_mature_pct": 45.4,
+  "mature": 1120,
+  "running": 1334,
+  "calls": 2538,
+  "first_date": "2026-09-25",
+  "last_date": "2026-11-27"
+ },
+ "regime": 1,
+ "excel": "excel/Nifty500_AI_Signals_latest.xlsx",
+ "sessions_computed": [
+  "2026-11-27"
+ ],
+ "note": "Research / paper-trading output - not investment advice."
+}
